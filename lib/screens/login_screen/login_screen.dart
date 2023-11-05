@@ -1,12 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_flutter/components/buttons/custom_button.dart';
 import 'package:todo_flutter/components/buttons/outline_row_button.dart';
+import 'package:todo_flutter/components/dialogs/dialog.dart';
 import 'package:todo_flutter/components/textfields/custom_email_input.dart';
 import 'package:todo_flutter/components/textfields/custom_password_input.dart';
+import 'package:todo_flutter/firebase/auth_service.dart';
 import 'package:todo_flutter/gen/assets.gen.dart';
 import 'package:todo_flutter/res/app_color.dart';
 import 'package:todo_flutter/res/app_style.dart';
+import 'package:todo_flutter/screens/main_screen/main_screen.dart';
 import 'package:todo_flutter/screens/signup_screen/signup_screen.dart';
+import 'package:todo_flutter/utils/validator.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,9 +21,39 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formfield = GlobalKey<FormState>();
+  final FirebaseAuthService _firebaseAuthService = FirebaseAuthService();
+  final _formfeeds = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  //method
+  void _signin() async {
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+    if (_formfeeds.currentState!.validate()) {
+      User? user = await _firebaseAuthService.loginWithEmail(
+          email: email, password: password);
+      if (user != null) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => const MainScreen(),
+          ),
+          (route) => false,
+        );
+      } else {
+        showCustomDialog(context,
+            title: 'Faild',
+            content: 'Incorrect username or password.',
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('OK'),
+              ),
+            ]);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
           onTap: () => FocusScope.of(context).unfocus(),
           child: SingleChildScrollView(
             child: Form(
-              key: _formfield,
+              key: _formfeeds,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -45,21 +80,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 16.0),
                   CustomEmailInput(
                       controller: _emailController,
+                      validator: (value) => Validator.checkIsEmpty(value),
                       hintText: 'Enter your email'),
                   const SizedBox(height: 16.0),
                   CustomPasswordInput(
                       controller: _passwordController,
+                      validator: (value) => Validator.checkIsEmpty(value),
                       hintText: 'Enter your password'),
                   const SizedBox(height: 36.6),
                   CustomButton(
-                      label: 'Login',
-                      onTap: () {
-                        if (_formfield.currentState!.validate()) {
-                          print('success');
-                          _emailController.clear();
-                          _passwordController.clear();
-                        }
-                      }),
+                    label: 'Login',
+                    onTap: _signin,
+                  ),
                   const SizedBox(height: 16.0),
                   CustomButton(
                     label: 'Register',

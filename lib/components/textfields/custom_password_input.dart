@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
 import 'package:todo_flutter/res/app_style.dart';
 
 class CustomPasswordInput extends StatefulWidget {
@@ -9,11 +10,13 @@ class CustomPasswordInput extends StatefulWidget {
     this.textInputAction,
     this.keyboardType,
     this.hintText,
+    this.validator,
   }) : super(key: key);
   final TextEditingController? controller;
   final TextInputAction? textInputAction;
   final TextInputType? keyboardType;
   final String? hintText;
+  final String? Function(String?)? validator;
   @override
   State<CustomPasswordInput> createState() => _CustomPasswordInputState();
 }
@@ -27,6 +30,7 @@ class _CustomPasswordInputState extends State<CustomPasswordInput> {
       controller: widget.controller,
       textInputAction: widget.textInputAction,
       keyboardType: widget.keyboardType,
+      validator: widget.validator,
       style: AppStyle.s16_w500_h000000,
       decoration: InputDecoration(
         suffixIcon: GestureDetector(

@@ -1,33 +1,34 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
 import 'package:todo_flutter/res/app_style.dart';
-import 'package:todo_flutter/utils/validator.dart';
 
 class CustomEmailInput extends StatefulWidget {
   const CustomEmailInput({
-    super.key,
+    Key? key,
     this.controller,
     this.textInputAction,
     this.keyboardType,
     this.hintText,
-  });
+    this.validator,
+  }) : super(key: key);
   final TextEditingController? controller;
   final TextInputAction? textInputAction;
   final TextInputType? keyboardType;
   final String? hintText;
-
+  final String? Function(String?)? validator;
   @override
   State<CustomEmailInput> createState() => _CustomEmailInputState();
 }
 
 class _CustomEmailInputState extends State<CustomEmailInput> {
-  String? _errorText;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
       textInputAction: widget.textInputAction,
       keyboardType: widget.keyboardType,
-      validator: (value) => Validator.checkEmail(value),
+      validator: widget.validator,
       style: AppStyle.s16_w500_h000000,
       decoration: InputDecoration(
         hintText: widget.hintText,

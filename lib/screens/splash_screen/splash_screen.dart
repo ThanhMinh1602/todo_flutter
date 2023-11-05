@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:todo_flutter/gen/assets.gen.dart';
 import 'package:todo_flutter/res/app_color.dart';
 import 'package:todo_flutter/screens/login_screen/login_screen.dart';
