@@ -18,4 +18,8 @@ class AppStyle {
       color: AppColor.h8B8787, fontSize: 15, fontWeight: FontWeight.w500);
   static const TextStyle s16_w500_h000000 = TextStyle(
       color: AppColor.h000000, fontSize: 15, fontWeight: FontWeight.w500);
+  static const TextStyle taskTitle = TextStyle(
+      color: AppColor.primaryColor, fontSize: 13, fontWeight: FontWeight.w600);
+  static const TextStyle taskSubTitle = TextStyle(
+      color: AppColor.h000000, fontSize: 10, fontWeight: FontWeight.w400);
 }
