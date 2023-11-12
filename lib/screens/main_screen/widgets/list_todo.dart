@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_flutter/firebase/task_service.dart';
+import 'package:todo_flutter/models/task_model.dart';
 import 'package:todo_flutter/screens/main_screen/widgets/todo_item.dart';
 
-class ListTodo extends StatelessWidget {
+class ListTodo extends StatefulWidget {
   ListTodo({
     super.key,
   });
+
+  @override
+  State<ListTodo> createState() => _ListTodoState();
+}
+
+class _ListTodoState extends State<ListTodo> {
   TaskService taskService = TaskService();
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -21,10 +30,22 @@ class ListTodo extends StatelessWidget {
             itemCount: snapshot.data!.length,
             separatorBuilder: (context, index) => const SizedBox(height: 18.0),
             itemBuilder: (context, index) {
+              List<TaskModel> lists = snapshot.data!;
+              lists.sort(
+                (a, b) => b.date!.compareTo(a.date!),
+              );
+              DateTime dateTime = lists[index].date!.toDate();
+              String formatedDate =
+                  DateFormat('HH:mm dd/MM/yyyy').format(dateTime);
               return TodoItem(
-                todoTitle: snapshot.data![index].title,
-                todoSubTitle: snapshot.data![index].subTitle,
-                date: '${snapshot.data![index].date}',
+                todoTitle: lists[index].title,
+                todoSubTitle: lists[index].subTitle,
+                date: '$formatedDate',
+                onDeleteTask: () {
+                  TaskService().deleteTaskByUIDFromFirebase(
+                      lists[index].taskId.toString());
+                  setState(() {});
+                },
               );
             },
           );

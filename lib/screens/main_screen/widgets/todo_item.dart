@@ -13,10 +13,12 @@ class TodoItem extends StatelessWidget {
     this.todoTitle,
     this.todoSubTitle,
     this.date,
+    this.onDeleteTask,
   }) : super(key: key);
   final String? todoTitle;
   final String? todoSubTitle;
   final String? date;
+  final Function()? onDeleteTask;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -53,10 +55,13 @@ class TodoItem extends StatelessWidget {
             child: Icon(Icons.mode_edit_outlined,
                 size: 20.0, color: AppColor.hD6D7EF),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5.0),
-            child:
-                Icon(Icons.delete_outline, size: 20.0, color: AppColor.hD6D7EF),
+          GestureDetector(
+            onTap: onDeleteTask,
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5.0),
+              child: Icon(Icons.delete_outline,
+                  size: 20.0, color: AppColor.hD6D7EF),
+            ),
           ),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 5.0),
