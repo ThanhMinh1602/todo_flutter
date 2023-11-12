@@ -1,21 +1,27 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first, use_build_context_synchronously
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 import 'package:todo_flutter/components/buttons/custom_button.dart';
 import 'package:todo_flutter/components/buttons/outline_row_button.dart';
 import 'package:todo_flutter/components/dialogs/dialog.dart';
 import 'package:todo_flutter/components/textfields/custom_email_input.dart';
 import 'package:todo_flutter/components/textfields/custom_password_input.dart';
-import 'package:todo_flutter/firebase/auth_service.dart';
 import 'package:todo_flutter/gen/assets.gen.dart';
 import 'package:todo_flutter/res/app_color.dart';
 import 'package:todo_flutter/res/app_style.dart';
 import 'package:todo_flutter/screens/main_screen/main_screen.dart';
 import 'package:todo_flutter/screens/signup_screen/signup_screen.dart';
+import 'package:todo_flutter/services/local/shared_prefs.dart';
+import 'package:todo_flutter/services/remote/auth_service.dart';
 import 'package:todo_flutter/utils/validator.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
-
+  const LoginScreen({
+    Key? key,
+    this.emali,
+  }) : super(key: key);
+  final String? emali;
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -23,8 +29,15 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final FirebaseAuthService _firebaseAuthService = FirebaseAuthService();
   final _formfeeds = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _emailController.text = widget.emali ?? '';
+  }
 
   //method
   void _signin() async {
@@ -34,6 +47,8 @@ class _LoginScreenState extends State<LoginScreen> {
       User? user = await _firebaseAuthService.loginWithEmail(
           email: email, password: password);
       if (user != null) {
+        SharedPrefs.token = user.uid;
+        // print("Thanh Minh token login: ${user.uid}");
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (context) => const MainScreen(),

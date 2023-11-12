@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:todo_flutter/components/textfields/custom_email_input.dart';
-import 'package:todo_flutter/firebase/task_service.dart';
 import 'package:todo_flutter/res/app_style.dart';
 
 class FormInputTodo extends StatelessWidget {

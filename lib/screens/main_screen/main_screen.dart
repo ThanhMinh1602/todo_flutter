@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:todo_flutter/components/textfields/custom_email_input.dart';
-import 'package:todo_flutter/firebase/task_service.dart';
-import 'package:todo_flutter/res/app_boxshadow.dart';
+import 'package:todo_flutter/services/remote/task_service.dart';
 import 'package:todo_flutter/res/app_color.dart';
 import 'package:todo_flutter/res/app_style.dart';
 import 'package:todo_flutter/screens/main_screen/widgets/form_input_todo.dart';
 import 'package:todo_flutter/screens/main_screen/widgets/list_todo.dart';
 import 'package:todo_flutter/screens/main_screen/widgets/list_todo_completed.dart';
-import 'package:todo_flutter/screens/main_screen/widgets/todo_item.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -58,6 +55,18 @@ class _MainScreenState extends State<MainScreen> {
         title: Text(
           'todo app'.toUpperCase(),
           style: AppStyle.s18_w600_hffffff.copyWith(fontSize: 24.0),
+        ),
+      ),
+      
+      endDrawer: Drawer(
+        
+        child: ListView(
+          children: [
+            TextButton(
+              child: Text('logout'),
+              onPressed: () {},
+            )
+          ],
         ),
       ),
       body: IndexedStack(

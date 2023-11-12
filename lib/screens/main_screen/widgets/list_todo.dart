@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:todo_flutter/firebase/task_service.dart';
 import 'package:todo_flutter/models/task_model.dart';
 import 'package:todo_flutter/screens/main_screen/widgets/todo_item.dart';
+import 'package:todo_flutter/services/local/shared_prefs.dart';
+import 'package:todo_flutter/services/remote/task_service.dart';
 
 class ListTodo extends StatefulWidget {
   ListTodo({

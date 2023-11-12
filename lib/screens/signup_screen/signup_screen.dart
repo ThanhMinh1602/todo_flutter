@@ -6,11 +6,12 @@ import 'package:todo_flutter/components/buttons/outline_row_button.dart';
 import 'package:todo_flutter/components/dialogs/dialog.dart';
 import 'package:todo_flutter/components/textfields/custom_email_input.dart';
 import 'package:todo_flutter/components/textfields/custom_password_input.dart';
-import 'package:todo_flutter/firebase/auth_service.dart';
 import 'package:todo_flutter/gen/assets.gen.dart';
 import 'package:todo_flutter/res/app_color.dart';
 import 'package:todo_flutter/res/app_style.dart';
+import 'package:todo_flutter/screens/login_screen/login_screen.dart';
 import 'package:todo_flutter/screens/main_screen/main_screen.dart';
+import 'package:todo_flutter/services/remote/auth_service.dart';
 import 'package:todo_flutter/utils/validator.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -40,6 +41,7 @@ class _SignupScreenState extends State<SignupScreen> {
         print("ThanhMinh: ${user.email}");
         if (user.email != null) {
           // User has an email, you can proceed with the success dialog
+          // ignore: use_build_context_synchronously
           return showCustomDialog(context,
               title: 'Success🎊🎉✌️',
               content:
@@ -48,7 +50,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 TextButton(
                   onPressed: () => Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                      builder: (context) => const MainScreen(),
+                      builder: (context) => LoginScreen(emali: email),
                     ),
                     (route) => false,
                   ),

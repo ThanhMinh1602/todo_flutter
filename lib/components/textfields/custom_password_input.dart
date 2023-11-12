@@ -31,6 +31,7 @@ class _CustomPasswordInputState extends State<CustomPasswordInput> {
       textInputAction: widget.textInputAction,
       keyboardType: widget.keyboardType,
       validator: widget.validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       style: AppStyle.s16_w500_h000000,
       decoration: InputDecoration(
         suffixIcon: GestureDetector(

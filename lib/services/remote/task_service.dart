@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:todo_flutter/firebase/auth_service.dart';
 import 'package:todo_flutter/models/task_model.dart';
+import 'package:todo_flutter/services/remote/auth_service.dart';
 
 class TaskService {
   FirebaseAuthService firebaseAuthService = FirebaseAuthService();
