@@ -23,7 +23,9 @@ class AppStyle {
   static const TextStyle s18_w400_h8B8787 = TextStyle(
       color: AppColor.h8B8787, fontSize: 18, fontWeight: FontWeight.w400);
   static const TextStyle taskTitle = TextStyle(
-      color: AppColor.primaryColor, fontSize: 13, fontWeight: FontWeight.w600);
+      color: AppColor.primaryColor, fontSize: 15, fontWeight: FontWeight.w600);
   static const TextStyle taskSubTitle = TextStyle(
-      color: AppColor.h000000, fontSize: 10, fontWeight: FontWeight.w400);
+      color: AppColor.h000000, fontSize: 13, fontWeight: FontWeight.w400);
+  static const TextStyle s18_w600_prm = TextStyle(
+      color: AppColor.primaryColor, fontSize: 18, fontWeight: FontWeight.w600);
 }
