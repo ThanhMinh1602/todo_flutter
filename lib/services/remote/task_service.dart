@@ -21,10 +21,7 @@ class TaskService {
     try {
       DocumentReference documentReference =
           await tasksColection.add(taskModel.toJson());
-      // Lấy taskId tương ứng
       String taskId = documentReference.id;
-
-      // Cập nhật lại taskModel với taskId
       taskModel = TaskModel(
         taskId: taskId,
         uID: user!.uid,
@@ -32,22 +29,22 @@ class TaskService {
         subTitle: subTitle,
         date: timestamp,
       );
-
-      // Cập nhật lại tài liệu trong Firestore với taskId
       await tasksColection.doc(taskId).set(taskModel.toJson());
-
       print("Task đã được thêm vào Firestore. Task ID: $taskId");
     } catch (e) {
       print("Lỗi khi thêm task vào Firestore: $e");
     }
   }
 
-  // get task by uID
-  Future<List<TaskModel>> getTasksByUIDFromFirebase() async {
+  // get task by uID and completed
+  Future<List<TaskModel>> getIncompleteTasksByUIDFromFirebase(
+      Object? isEqualTo) async {
     CollectionReference tasksCollection =
         FirebaseFirestore.instance.collection('tasks');
-    QuerySnapshot querySnapshot =
-        await tasksCollection.where('uID', isEqualTo: user!.uid).get();
+    QuerySnapshot querySnapshot = await tasksCollection
+        .where('uID', isEqualTo: user!.uid)
+        .where('isCompleted', isEqualTo: isEqualTo)
+        .get();
     List<TaskModel> tasks = [];
     for (QueryDocumentSnapshot document in querySnapshot.docs) {
       Map<String, dynamic> data = document.data() as Map<String, dynamic>;
@@ -68,5 +65,45 @@ class TaskService {
     }).catchError((error) {
       print('Lỗi khi xóa tài liệu: $error');
     });
+  }
+
+  // update task
+  Future<void> updateTaskInFirebase({
+    required String taskId,
+    String? newTitle,
+    String? newSubTitle,
+  }) async {
+    try {
+      CollectionReference tasksCollection =
+          FirebaseFirestore.instance.collection('tasks');
+      Timestamp timestamp = Timestamp.now();
+      Map<String, dynamic> updatedData = {
+        'title': newTitle,
+        'subTitle': newSubTitle,
+        'date': timestamp,
+      };
+      await tasksCollection.doc(taskId).update(updatedData);
+
+      print("Task đã được cập nhật trong Firestore. Task ID: $taskId");
+    } catch (e) {
+      print("Lỗi khi cập nhật task trong Firestore: $e");
+    }
+  }
+
+  // set task as complete
+  Future<void> setTaskComplete(String taskId) async {
+    try {
+      // Create a reference to the tasks collection
+      CollectionReference tasksCollection =
+          FirebaseFirestore.instance.collection('tasks');
+
+      // Update the document with the new data (set 'complete' to true)
+      await tasksCollection.doc(taskId).update({'isCompleted': true});
+
+      print(
+          "Task đã được đánh dấu là hoàn thành trong Firestore. Task ID: $taskId");
+    } catch (e) {
+      print("Lỗi khi đánh dấu task là hoàn thành trong Firestore: $e");
+    }
   }
 }

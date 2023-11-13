@@ -5,10 +5,14 @@ void showCustomDialog(BuildContext context,
   showDialog(
     context: context,
     builder: (context) {
-      return AlertDialog(
-        title: Text(title ?? ''),
-        content: Text(content ?? ''),
-        actions: actions ?? [],
+      return StatefulBuilder(
+        builder: (context, setState) {
+          return AlertDialog(
+            title: Text(title ?? ''),
+            content: Text(content ?? ''),
+            actions: actions ?? [],
+          );
+        },
       );
     },
   );

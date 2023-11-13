@@ -7,22 +7,19 @@ import 'package:todo_flutter/res/app_boxshadow.dart';
 import 'package:todo_flutter/res/app_color.dart';
 import 'package:todo_flutter/res/app_style.dart';
 
-class TodoItem extends StatelessWidget {
-  const TodoItem({
+class TodoItemCompleted extends StatelessWidget {
+  const TodoItemCompleted({
     Key? key,
     this.todoTitle,
     this.todoSubTitle,
     this.date,
     this.onDeleteTask,
-    this.onEditTask,
-    this.onSetTaskComplete,
   }) : super(key: key);
   final String? todoTitle;
   final String? todoSubTitle;
   final String? date;
   final Function()? onDeleteTask;
-  final Function()? onEditTask;
-    final Function()? onSetTaskComplete;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -55,26 +52,10 @@ class TodoItem extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: onEditTask,
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.0),
-              child: Icon(Icons.mode_edit_outlined,
-                  size: 20.0, color: AppColor.hD6D7EF),
-            ),
-          ),
-          GestureDetector(
             onTap: onDeleteTask,
             child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.0),
+              padding: EdgeInsets.symmetric(horizontal: 15.0),
               child: Icon(Icons.delete_outline,
-                  size: 20.0, color: AppColor.hD6D7EF),
-            ),
-          ),
-          GestureDetector(
-            onTap: onSetTaskComplete,
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.0),
-              child: Icon(Icons.check_circle_outlined,
                   size: 20.0, color: AppColor.hD6D7EF),
             ),
           ),
