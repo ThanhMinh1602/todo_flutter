@@ -8,6 +8,7 @@ import 'package:todo_flutter/components/dialogs/dialog.dart';
 import 'package:todo_flutter/components/textfields/custom_email_input.dart';
 import 'package:todo_flutter/components/textfields/custom_password_input.dart';
 import 'package:todo_flutter/gen/assets.gen.dart';
+import 'package:todo_flutter/models/user_model.dart';
 import 'package:todo_flutter/res/app_color.dart';
 import 'package:todo_flutter/res/app_style.dart';
 import 'package:todo_flutter/screens/main_screen/main_screen.dart';
@@ -87,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height * 0.09),
                   Image.asset(Assets.images.loginlogo.path),
-                  const Text(
+                  Text(
                     "Login",
                     style: AppStyle.s35_w600_h000000,
                     textAlign: TextAlign.center,

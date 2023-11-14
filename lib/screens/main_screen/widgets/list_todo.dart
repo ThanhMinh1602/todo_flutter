@@ -1,12 +1,15 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_firsts
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:todo_flutter/components/dialogs/dialog.dart';
 import 'package:todo_flutter/models/task_model.dart';
+import 'package:todo_flutter/models/user_model.dart';
 import 'package:todo_flutter/screens/edit_task_screen/edit_task_screen.dart';
 import 'package:todo_flutter/screens/main_screen/widgets/todo_item.dart';
 import 'package:todo_flutter/screens/main_screen/widgets/todo_item_completed.dart';
+import 'package:todo_flutter/services/remote/auth_service.dart';
 import 'package:todo_flutter/services/remote/task_service.dart';
 
 class ListTodo extends StatefulWidget {
@@ -20,6 +23,23 @@ class ListTodo extends StatefulWidget {
 }
 
 class _ListTodoState extends State<ListTodo> {
+  FirebaseAuthService authService = FirebaseAuthService();
+  UserModel userModel = UserModel();
+  Future<void> getInfUser() async {
+    UserModel? user = await authService.getCurrentUser();
+    if (user != null) {
+      userModel = user;
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getInfUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -46,7 +66,7 @@ class _ListTodoState extends State<ListTodo> {
                   ? TodoItem(
                       todoTitle: lists[index].title,
                       todoSubTitle: lists[index].subTitle,
-                      date: '$formatedDate',
+                      date: '$formatedDate ${userModel.name}',
                       onEditTask: () => onEditTask(lists, index),
                       onDeleteTask: () => onDeleteTask(lists, index),
                       onSetTaskComplete: () => onSetTaskComplete(lists, index),

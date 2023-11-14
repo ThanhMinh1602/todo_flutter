@@ -10,7 +10,6 @@ import 'package:todo_flutter/gen/assets.gen.dart';
 import 'package:todo_flutter/res/app_color.dart';
 import 'package:todo_flutter/res/app_style.dart';
 import 'package:todo_flutter/screens/login_screen/login_screen.dart';
-import 'package:todo_flutter/screens/main_screen/main_screen.dart';
 import 'package:todo_flutter/services/remote/auth_service.dart';
 import 'package:todo_flutter/utils/validator.dart';
 
@@ -27,9 +26,11 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPassController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
 
   //method
   void _signup() async {
+    String name = _nameController.text;
     String email = _emailController.text.trim();
     String password = _confirmPassController.text.trim();
 
@@ -39,10 +40,12 @@ class _SignupScreenState extends State<SignupScreen> {
 
       if (user != null) {
         print("ThanhMinh: ${user.email}");
+        await user.updateDisplayName(name);
         if (user.email != null) {
           // User has an email, you can proceed with the success dialog
           // ignore: use_build_context_synchronously
-          return showCustomDialog(context,
+          await user.updateDisplayName(name);
+          showCustomDialog(context,
               title: 'Success🎊🎉✌️',
               content:
                   'Congratulations, you have successfully registered your account!',
@@ -60,7 +63,7 @@ class _SignupScreenState extends State<SignupScreen> {
         }
       } else {
         // Handle the case where user is null (registration failed)
-        return showCustomDialog(context,
+        showCustomDialog(context,
             title: 'Failed',
             content:
                 'Email already exists in the system, please use a different email account.',
@@ -96,6 +99,11 @@ class _SignupScreenState extends State<SignupScreen> {
                       style: AppStyle.s35_w600_h000000,
                       textAlign: TextAlign.center,
                     ),
+                    const SizedBox(height: 16.0),
+                    CustomEmailInput(
+                        validator: (value) => Validator.checkIsEmpty(value),
+                        controller: _nameController,
+                        hintText: 'Enter your name'),
                     const SizedBox(height: 16.0),
                     CustomEmailInput(
                         validator: (value) => Validator.checkEmail(value),
